@@ -4,14 +4,11 @@ using Avalonia.Markup.Xaml;
 
 namespace Course.Views
 {
-    public partial class RequestView : Window
+    public partial class RequestView : UserControl
     {
         public RequestView()
         {
             InitializeComponent();
-#if DEBUG
-            this.AttachDevTools();
-#endif
         }
 
         private void InitializeComponent()

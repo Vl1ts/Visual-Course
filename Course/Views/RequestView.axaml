@@ -1,19 +1,158 @@
-<Window xmlns="https://github.com/avaloniaui"
+<UserControl xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        x:Class="Course.Views.RequestView"
-        Title="RequestView">
+        mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="650"
+		Width="1000" Height="650"
+        x:Class="Course.Views.RequestView">
 
-	<Grid RowDefinitions="14*, *">
+	<Grid RowDefinitions="17*, *, *">
+
+		<ScrollViewer Grid.Row="0">
+			<TabControl Items="{Binding $parent[Window].DataContext.Tabs}" TabStripPlacement="Left">
+
+				<TabControl.ItemTemplate>
+					<DataTemplate>
+						<TextBlock Text="{Binding Header}"/>
+					</DataTemplate>
+				</TabControl.ItemTemplate>
+
+				<TabControl.ContentTemplate>
+					<DataTemplate>
+
+						<!--Right Part Grid--> 
+						<Grid RowDefinitions="*, *, 12*, *, *">
+							
+							<!--Title-->
+							<TextBox Grid.Row="0" Text="{Binding Header}" VerticalContentAlignment="Center" MaxLength="8"/>
+							
+							<!--Select Group-->
+							<Grid Grid.Row="1" ColumnDefinitions="*, *">
+
+								<RadioButton Grid.Column="0" Name="Select" GroupName="Buttons">
+									Select
+								</RadioButton>
+
+								<RadioButton Grid.Column="1" Name="Group" GroupName="Buttons">
+									Group
+								</RadioButton>
+								
+							</Grid>
+							
+							<!--Tables-->
+							<Grid Grid.Row="2" ColumnDefinitions="*, *">
+
+								<ScrollViewer Grid.Column="0">
+
+									<ComboBox PlaceholderText="Table Field" HorizontalAlignment="Stretch" Margin="5 5 5 5">
+										<ComboBoxItem>ID</ComboBoxItem>
+										<ComboBoxItem>Name</ComboBoxItem>
+										<ComboBoxItem>Runs</ComboBoxItem>
+										<ComboBoxItem>Wins</ComboBoxItem>
+										<ComboBoxItem>StrikeRate</ComboBoxItem>
+										<ComboBoxItem>LongestWinningSequence</ComboBoxItem>
+										<ComboBoxItem>LongestLosingSequence</ComboBoxItem>
+										<ComboBoxItem>CurrentLosingSequence</ComboBoxItem>
+									</ComboBox>
+									
+								</ScrollViewer>
+
+								<ScrollViewer Grid.Column="1">
+
+									<StackPanel>
+										<TextBlock Margin="5 5 5 5">Where</TextBlock>
+										<ComboBox PlaceholderText="Where" HorizontalAlignment="Stretch" Margin="5 5 5 5">
+											<!--Dog-->
+											<ComboBoxItem>ID</ComboBoxItem>
+											<ComboBoxItem>Name</ComboBoxItem>
+											<ComboBoxItem>Runs</ComboBoxItem>
+											<ComboBoxItem>Wins</ComboBoxItem>
+											<ComboBoxItem>StrikeRate</ComboBoxItem>
+											<ComboBoxItem>LongestWinningSequence</ComboBoxItem>
+											<ComboBoxItem>LongestLosingSequence</ComboBoxItem>
+											<ComboBoxItem>CurrentLosingSequence</ComboBoxItem>
+											<!--DogRace-->
+											<ComboBoxItem>ID</ComboBoxItem>
+											<ComboBoxItem>Date</ComboBoxItem>
+											<ComboBoxItem>TrackName</ComboBoxItem>
+											<ComboBoxItem>DogId</ComboBoxItem>
+											<ComboBoxItem>Grade</ComboBoxItem>
+											<ComboBoxItem>Distance</ComboBoxItem>
+											<ComboBoxItem>Sp</ComboBoxItem>
+											<ComboBoxItem>Finish</ComboBoxItem>
+											<ComboBoxItem>Sectional</ComboBoxItem>
+											<ComboBoxItem>Time</ComboBoxItem>
+											<ComboBoxItem>Going</ComboBoxItem>
+											<ComboBoxItem>CalcTime</ComboBoxItem>
+											<ComboBoxItem>ChesterRating</ComboBoxItem>
+											<ComboBoxItem>TrainerId</ComboBoxItem>
+											<!--Track-->
+											<ComboBoxItem>Name</ComboBoxItem>
+											<ComboBoxItem>TotalWinners</ComboBoxItem>
+											<!--Trainer-->
+											<ComboBoxItem>ID</ComboBoxItem>
+											<ComboBoxItem>Name</ComboBoxItem>
+											<ComboBoxItem>TrackName</ComboBoxItem>
+											<ComboBoxItem>Runners</ComboBoxItem>
+											<ComboBoxItem>NoFavs</ComboBoxItem>
+											<ComboBoxItem>StartingFavP</ComboBoxItem>
+											<ComboBoxItem>Winners</ComboBoxItem>
+											<ComboBoxItem>WinnersP</ComboBoxItem>
+											<ComboBoxItem>NoWinFavs</ComboBoxItem>
+											<ComboBoxItem>FavWinPercent</ComboBoxItem>
+											<ComboBoxItem>ProfitLossToStake</ComboBoxItem>
+											<ComboBoxItem>AverageSp</ComboBoxItem>
+											<!--Trap-->
+											<ComboBoxItem>TrackName</ComboBoxItem>
+											<ComboBoxItem>Number</ComboBoxItem>
+											<ComboBoxItem>Runs</ComboBoxItem>
+											<ComboBoxItem>Wins</ComboBoxItem>
+											<ComboBoxItem>WinPercent</ComboBoxItem>
+										</ComboBox>
+										<ComboBox PlaceholderText="Eq" HorizontalAlignment="Stretch" Margin="5 5 5 5">
+											<ComboBoxItem>&lt;</ComboBoxItem>
+											<ComboBoxItem>&gt;</ComboBoxItem>
+											<ComboBoxItem>=</ComboBoxItem>
+										</ComboBox>
+										<TextBox Margin="5 5 5 5">
+											
+										</TextBox>
+									</StackPanel>
+
+								</ScrollViewer>
+								
+							</Grid>
+							
+							<!--Run-->
+							<Button Grid.Row="3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+								Run Request
+							</Button>
+
+							<Button Grid.Row="4" Command="{Binding $parent[Window].DataContext.DeleteRequest}" CommandParameter="{Binding}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+								Delete Request
+							</Button>
+							
+						</Grid>
+						
+					</DataTemplate>
+				</TabControl.ContentTemplate>
+
+			</TabControl>
+		</ScrollViewer>
 
 		<Border Grid.Row="1" BorderThickness="1" BorderBrush="Black">
-			<Button VerticalAlignment="Stretch" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
-				Open request window
+			<Button Command="{Binding $parent[Window].DataContext.CreateRequest}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+				Create new request
 			</Button>
 		</Border>
-		
-	</Grid>	
+		<Border Grid.Row="2" BorderThickness="1" BorderBrush="Black">
+			<Button Command="{Binding $parent[Window].DataContext.ChangeWindow}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+				Close request window
+			</Button>
+		</Border>
 
-</Window>
+	</Grid>
+	
+	
+	
+</UserControl>

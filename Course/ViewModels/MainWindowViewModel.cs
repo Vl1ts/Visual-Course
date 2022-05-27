@@ -5,6 +5,7 @@ using ReactiveUI;
 using System.Reactive;
 using System.Collections.ObjectModel;
 using Course.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Course.ViewModels
 {
@@ -88,48 +89,95 @@ namespace Course.ViewModels
             }
         }
 
+        ViewModelBase content;
+        public ViewModelBase Content
+        {
+            get
+            {
+                return content;
+            }
+            set
+            {
+                this.RaiseAndSetIfChanged(ref content, value);
+            }
+        }
+
+        public databaseContext DataBaseContext = new databaseContext();
+
+        public void ChangeWindow()
+        {
+            if (Content is DatabaseViewModel)
+            {
+                Content = new RequestViewModel();
+            }
+            else if (Content is RequestViewModel)
+            {
+                Content = new DatabaseViewModel();
+            }
+        }
+
+        public void SaveDataBase()
+        {
+            DataBaseContext.SaveChanges();
+        }
+
         public MainWindowViewModel()
         {
-            Dogs = new ObservableCollection<Dog>();
-            DogRaces = new ObservableCollection<DogRace>();
-            Tracks = new ObservableCollection<Track>();
-            Trainers = new ObservableCollection<Trainer>();
-            Traps = new ObservableCollection<Trap>();
+            Content = new DatabaseViewModel();
+            
+            DataBaseContext.Dogs.Load();
+            Dogs = DataBaseContext.Dogs.Local.ToObservableCollection();
 
-            using (var database = new databaseContext())
-            {
-                foreach (var dog in database.Dogs)
-                {
-                    Dogs.Add(dog);
-                }
+            DataBaseContext.DogRaces.Load();
+            DogRaces = DataBaseContext.DogRaces.Local.ToObservableCollection();
 
-                foreach (var race in database.DogRaces)
-                {
-                    DogRaces.Add(race);
-                }
+            DataBaseContext.Tracks.Load();
+            Tracks = DataBaseContext.Tracks.Local.ToObservableCollection();
 
-                foreach (var track in database.Tracks)
-                {
-                    Tracks.Add(track);
-                }
+            DataBaseContext.Trainers.Load();
+            Trainers = DataBaseContext.Trainers.Local.ToObservableCollection();
 
-                foreach (var trainer in database.Trainers)
-                {
-                    Trainers.Add(trainer);
-                }
+            DataBaseContext.Traps.Load();
+            Traps = DataBaseContext.Traps.Local.ToObservableCollection();
+
+            //Dogs = new ObservableCollection<Dog>();
+            //DogRaces = new ObservableCollection<DogRace>();
+            //Tracks = new ObservableCollection<Track>();
+            //Trainers = new ObservableCollection<Trainer>();
+            //Traps = new ObservableCollection<Trap>();
+
+            //using (var database = new databaseContext())
+            //{
+            //    foreach (var dog in database.Dogs)
+            //    {
+            //        Dogs.Add(dog);
+            //    }
+
+            //    foreach (var race in database.DogRaces)
+            //    {
+            //        DogRaces.Add(race);
+            //    }
+
+            //    foreach (var track in database.Tracks)
+            //    {
+            //        Tracks.Add(track);
+            //    }
+
+            //    foreach (var trainer in database.Trainers)
+            //    {
+            //        Trainers.Add(trainer);
+            //    }
                 
-                foreach (var trap in database.Traps)
-                {
-                    Traps.Add(trap);
-                }
-            }
+            //    foreach (var trap in database.Traps)
+            //    {
+            //        Traps.Add(trap);
+            //    }
+            //}
             
             Tabs = new ObservableCollection<TabElement>();
-            Tabs.Add(new TabElement("Dog"));
-            Tabs.Add(new TabElement("Dog Race"));
-            Tabs.Add(new TabElement("Track"));
-            Tabs.Add(new TabElement("Trainer"));
-            Tabs.Add(new TabElement("Trap"));
+            Tabs.Add(new TabElement("Req1"));
+            Tabs.Add(new TabElement("Req2"));
+            Tabs.Add(new TabElement("Req3"));
 
             AddRow = ReactiveCommand.Create<string, Unit>((name) =>
             {
@@ -167,13 +215,50 @@ namespace Course.ViewModels
                 return Unit.Default;
             });
 
-            RemoveLine = ReactiveCommand.Create<string, Unit>((name) =>
+            RemoveLine = ReactiveCommand.Create<object, Unit>((elememt) =>
             {
+                if(elememt is Dog)
+                {
+                    Dogs.Remove(elememt as Dog);
+                }
+                if (elememt is DogRace)
+                {
+                    DogRaces.Remove(elememt as DogRace);
+                }
+                if (elememt is Track)
+                {
+                    Tracks.Remove(elememt as Track);
+                }
+                if (elememt is Trainer)
+                {
+                    Trainers.Remove(elememt as Trainer);
+                }
+                if (elememt is Trap)
+                {
+                    Traps.Remove(elememt as Trap);
+                }
+
+                return Unit.Default;
+            });
+
+            CreateRequest = ReactiveCommand.Create<Unit, Unit>((_unit) =>
+            {
+                Tabs.Add(new TabElement());
+
+                return Unit.Default;
+            });
+
+            DeleteRequest = ReactiveCommand.Create<TabElement, Unit>((elememt) =>
+            {
+                Tabs.Remove(elememt);
+
                 return Unit.Default;
             });
         }
 
         public ReactiveCommand<string, Unit> AddRow { get; }
-        public ReactiveCommand<string, Unit> RemoveLine { get; }
+        public ReactiveCommand<object, Unit> RemoveLine { get; }
+        public ReactiveCommand<Unit, Unit> CreateRequest { get; }
+        public ReactiveCommand<TabElement, Unit> DeleteRequest { get; }
     }
 }

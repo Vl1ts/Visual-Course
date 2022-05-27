@@ -7,17 +7,6 @@ namespace Course.Views
         public MainWindow()
         {
             InitializeComponent();
-
-            this.FindControl<MenuItem>("MenuAboutBtn").Click += async delegate
-            {
-                var aboutWindow = new AboutView();
-                await aboutWindow.ShowDialog((Window)this.VisualRoot);
-            };
-            
-            this.FindControl<MenuItem>("MenuExitBtn").Click += delegate
-            {
-                this.Close();
-            };
         }
     }
 }

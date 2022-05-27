@@ -37,7 +37,7 @@ namespace Course.Models
             }
         }
         
-        public TabElement(string name = "", ObservableCollection<string> new_tabs = null)
+        public TabElement(string name = "null", ObservableCollection<string> new_tabs = null)
         {
             this.header = name;
             this.Tabs = new_tabs;
