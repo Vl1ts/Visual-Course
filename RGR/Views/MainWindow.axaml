@@ -1,0 +1,77 @@
+
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:RGR.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="using:RGR.Views"
+        xmlns:model="using:RGR.Models"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="RGR.Views.MainWindow"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="DogRace">
+  
+	<Design.DataContext>
+		<vm:MainWindowViewModel/>
+	</Design.DataContext>
+
+	<!--Main Grid-->
+	<Grid RowDefinitions="*, 18*, *">
+		
+		<!--Menu-->
+		<Border Grid.Row="0" BorderThickness="1" BorderBrush="Black">
+			<Menu VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+				<MenuItem Header="Save" Name="MenuSaveBtn" Command="{Binding OnClick}"/>
+			</Menu>
+		</Border>
+
+		<!--Left Part-->
+		<Grid Grid.Row="1" ColumnDefinitions="*, 5*">
+			
+			<!--Names-->
+			<ListBox Grid.Column="0" Items="{Binding Tables}" SelectionChanged="OnSelect" x:Name="myTabs">
+				
+				<!--DataBase-->
+				<ListBox.ItemsPanel>
+					<ItemsPanelTemplate>
+						<StackPanel Orientation="Vertical"/>
+					</ItemsPanelTemplate>
+				</ListBox.ItemsPanel>
+
+				<!--Query-->
+				<ListBox.DataTemplates>
+					<DataTemplate DataType="{x:Type model:MyQuery}">
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="{Binding TableName}" VerticalAlignment="Center"/>
+							<TextBlock Text=" "/>
+							<Button Click="deleteQuer" CommandParameter="{Binding}" Content="X"/>
+						</StackPanel>
+					</DataTemplate>
+				</ListBox.DataTemplates>
+				
+			</ListBox>
+
+			<Grid Grid.Column="1" RowDefinitions="18*, *">
+
+				<!--Data-->
+				<DataGrid Grid.Row="0" x:Name="dGrid" AutoGenerateColumns="False" VerticalScrollBarVisibility="Visible" IsReadOnly="False"/>
+
+				<!--New Line-->
+				<Border Grid.Row="1" BorderBrush="Black" BorderThickness="1">
+					<Button VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+						Add New Line
+					</Button>
+				</Border>
+
+			</Grid>		
+			
+		</Grid>
+
+		<!--Query-->
+		<Button Grid.Row="2" Click="showQueryWindow" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+			Open query window
+		</Button>
+
+	</Grid>
+
+</Window>

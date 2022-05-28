@@ -1,0 +1,32 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" 
+        x:Class="RGR.Views.NewQueryWindow"
+        Height="300"
+        Width="400"
+        CanResize="False"
+        Title="New Query">
+
+	<Grid RowDefinitions="7*, *, *">
+
+		<ListBox Items="{Binding AllItems}" Name="mList">
+			<ListBox.ItemTemplate>
+				<DataTemplate>
+					<TextBlock Text="{Binding TableName}" HorizontalAlignment="Center"/>
+				</DataTemplate>
+			</ListBox.ItemTemplate>
+		</ListBox>
+
+		<Button Grid.Row="1" Name="OKbtn" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+			Confirm
+		</Button>
+		
+		<Button Grid.Row="2" Name="Cancelbtn" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+			Cancel
+		</Button>
+
+	</Grid>
+	
+</Window>

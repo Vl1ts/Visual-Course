@@ -1,0 +1,95 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="RGR.Views.QueryWindow"
+        Title="Query">
+
+	<Grid RowDefinitions="18*, *">
+
+		<!--Top-->
+		<Grid Grid.Row="0" ColumnDefinitions="*, 5*">
+
+			<!--Left-->
+			<ListBox Grid.Column="0" Items="{Binding QueryItems}" SelectedItem="{Binding TargetQuery}">
+				<ListBox.ItemTemplate>
+					<DataTemplate>
+						
+						<TextBlock Text="{Binding QueryName}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+						
+					</DataTemplate>
+				</ListBox.ItemTemplate>
+			</ListBox>
+
+			<!--Right-->
+			<Border Grid.Column="1" BorderThickness="1" BorderBrush="Black">
+				
+				<Grid RowDefinitions="*, *, 18*">
+
+					<TextBox Grid.Row="0" Text="{Binding TargetQuery.QueryName}" Watermark="Title"/>
+
+					<Grid Grid.Row="1" ColumnDefinitions="*, *, *, *, *">
+						<Button Grid.Column="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalAlignment="Stretch" VerticalContentAlignment="Center">
+							Delete
+						</Button>
+						<Button Grid.Column="1" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalAlignment="Stretch" VerticalContentAlignment="Center" Click="JoinQuery">
+							Join
+						</Button>
+						<Button Grid.Column="2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalAlignment="Stretch" VerticalContentAlignment="Center" Click="WhereQuery">
+							Where
+						</Button>
+						<Button Grid.Column="3" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalAlignment="Stretch" VerticalContentAlignment="Center" Click="GroupQuery">
+							Group
+						</Button>
+						<Button Grid.Column="4" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalAlignment="Stretch" VerticalContentAlignment="Center" Command="{Binding RunQuery}">
+							Run
+						</Button>
+					</Grid>
+
+					<ItemsControl Grid.Row="2" Items="{Binding TargetQuery.Items}" ScrollViewer.HorizontalScrollBarVisibility="Auto">
+						
+						<ItemsControl.ItemsPanel>
+							<ItemsPanelTemplate>
+								<StackPanel Orientation="Horizontal" />
+							</ItemsPanelTemplate>
+						</ItemsControl.ItemsPanel>
+						
+						<ItemsControl.ItemTemplate>
+							<DataTemplate>
+								<Border BorderBrush="Black" BorderThickness="1" Padding="5 5 5 5">
+									
+									<Grid RowDefinitions="30, *">
+										
+										<TextBlock Grid.Row="0" Text="{Binding TableName}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+										
+										<ScrollViewer Grid.Row="1">
+											<ItemsControl Items="{Binding Items}" ScrollViewer.VerticalScrollBarVisibility="Auto">
+												<ItemsControl.ItemTemplate>
+													<DataTemplate>
+														<CheckBox IsChecked="{Binding IsChecked}" Content="{Binding Name}"/>
+													</DataTemplate>
+												</ItemsControl.ItemTemplate>
+											</ItemsControl>
+										</ScrollViewer>
+									</Grid>
+									
+								</Border>
+							</DataTemplate>
+						</ItemsControl.ItemTemplate>
+						
+					</ItemsControl>
+				</Grid>
+				
+			</Border>
+
+		</Grid>
+
+		<!--New Query Button-->
+		<Button Grid.Row="1" Click="CreateQuery" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+			Create new query
+		</Button>
+
+	</Grid>
+	
+</Window>
